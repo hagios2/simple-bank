@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func createRandomAccount(t *testing.T) Account {
+func createRandomAccount(t *testing.T) Accounts {
 	arg := CreateAccountParams{
 		Owner:    util.RandomOwner(),
 		Balance:  util.RandomMoney(),

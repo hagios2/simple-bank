@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func createTestAccount(t *testing.T, store *Store) Account {
+func createTestAccount(t *testing.T, store *Store) Accounts {
 	arg := CreateAccountParams{
 		Owner:    util.RandomOwner(),
 		Balance:  util.RandomMoney(),
@@ -22,7 +22,7 @@ func createTestAccount(t *testing.T, store *Store) Account {
 	return account
 }
 
-func createRandomEntry(t *testing.T, store *Store) Entry {
+func createRandomEntry(t *testing.T, store *Store) Entries {
 	account1 := createTestAccount(t, store)
 	amount := util.RandomMoney()
 
