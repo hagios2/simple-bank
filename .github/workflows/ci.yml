@@ -36,6 +36,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Step golang-migrate
+        run: |
+          curl -L https://github.com/golang-migrate/migrate/releases/download/v4.17.0/migrate.linux-amd64.tar.gz | tar xvz
+          mv migrate.linux-amd64 /usr/bin/
+          which migrate
+
       - name: Run migrations
         run: make migrate-up
 
@@ -43,7 +49,6 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version: '1.20'
-
 
       - name: Test
         run: make test
