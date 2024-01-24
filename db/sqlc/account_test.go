@@ -3,7 +3,7 @@ package db
 import (
 	"context"
 	"database/sql"
-	util "github.com/hagios2/simple-bank"
+	"github.com/hagios2/simple-bank/util"
 	"github.com/stretchr/testify/require"
 	"testing"
 	"time"
