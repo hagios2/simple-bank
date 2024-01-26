@@ -10,7 +10,7 @@ import (
 
 type CreateAccountRequest struct {
 	Owner    string `json:"owner" binding:"required" `
-	Currency string `json:"currency" binding:"required,oneof=GHS USD GBP"`
+	Currency string `json:"currency" binding:"required,oneof=currency"`
 }
 
 func (server *Server) createAccount(ctx *gin.Context) {
@@ -56,8 +56,8 @@ func (server *Server) getAccount(ctx *gin.Context) {
 }
 
 type getAccountListRequest struct {
-	PageID   int32 `form:"id" binding:"required,min=1"`
-	PageSize int32 `form:"id" binding:"required,min=1"`
+	PageID   int32 `form:"page_id" binding:"required,min=1"`
+	PageSize int32 `form:"page_size" binding:"required,min=1"`
 }
 
 func (server *Server) getAccountList(ctx *gin.Context) {
