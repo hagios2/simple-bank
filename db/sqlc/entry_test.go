@@ -8,22 +8,24 @@ import (
 	"time"
 )
 
-func createTestAccount(t *testing.T, store *Store) Accounts {
+func createTestAccount(t *testing.T) Accounts {
+	user := createRandomUser(t)
+
 	arg := CreateAccountParams{
-		Owner:    util.RandomOwner(),
+		Owner:    user.Username,
 		Balance:  util.RandomMoney(),
 		Currency: util.RandomCurrency(),
 	}
 
-	account, err := store.CreateAccount(context.Background(), arg)
+	account, err := testQueries.CreateAccount(context.Background(), arg)
 	require.NoError(t, err)
 	require.NotEmpty(t, account)
 
 	return account
 }
 
-func createRandomEntry(t *testing.T, store *Store) Entries {
-	account1 := createTestAccount(t, store)
+func createRandomEntry(t *testing.T) Entries {
+	account1 := createTestAccount(t)
 	amount := util.RandomMoney()
 
 	arg := CreateEntryParams{
@@ -31,7 +33,7 @@ func createRandomEntry(t *testing.T, store *Store) Entries {
 		Amount:    amount,
 	}
 
-	entry, err := store.CreateEntry(context.Background(), arg)
+	entry, err := testQueries.CreateEntry(context.Background(), arg)
 	require.NoError(t, err)
 	require.NotEmpty(t, entry)
 
@@ -44,14 +46,12 @@ func createRandomEntry(t *testing.T, store *Store) Entries {
 }
 
 func TestCreateEntry(t *testing.T) {
-	store := NewStore(testDB)
-	createRandomEntry(t, store)
+	createRandomEntry(t)
 }
 
 func TestGetEntry(t *testing.T) {
-	store := NewStore(testDB)
-	entry1 := createRandomEntry(t, store)
-	entry2, err := store.GetEntry(context.Background(), entry1.ID)
+	entry1 := createRandomEntry(t)
+	entry2, err := testQueries.GetEntry(context.Background(), entry1.ID)
 
 	require.NoError(t, err)
 	require.NotEmpty(t, entry2)
@@ -63,8 +63,7 @@ func TestGetEntry(t *testing.T) {
 }
 
 func TestListEntries(t *testing.T) {
-	store := NewStore(testDB)
-	account1 := createTestAccount(t, store)
+	account1 := createTestAccount(t)
 	amount := util.RandomMoney()
 
 	for i := 0; i < 10; i++ {
@@ -73,12 +72,12 @@ func TestListEntries(t *testing.T) {
 			Amount:    amount,
 		}
 
-		entry, _ := store.CreateEntry(context.Background(), arg)
+		entry, _ := testQueries.CreateEntry(context.Background(), arg)
 		require.NotEmpty(t, entry)
 	}
 
 	for i := 0; i < 3; i++ {
-		createRandomEntry(t, store)
+		createRandomEntry(t)
 	}
 
 	arg := ListEntriesParams{
@@ -87,7 +86,7 @@ func TestListEntries(t *testing.T) {
 		Offset:    5,
 	}
 
-	entries, err := store.ListEntries(context.Background(), arg)
+	entries, err := testQueries.ListEntries(context.Background(), arg)
 	require.NoError(t, err)
 	require.Len(t, entries, 5)
 

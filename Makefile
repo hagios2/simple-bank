@@ -10,8 +10,14 @@ dropdb:
 migrate-up:
 	migrate -path=db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose up
 
+migrate-up1:
+	migrate -path=db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose up 1
+
 migrate-down:
 	 migrate -path=db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose down
+
+migrate-down1:
+	migrate -path=db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose down 1
 
 test:
 	go test -v -cover ./...
@@ -25,4 +31,4 @@ server:
 mock:
 	mockgen -package mockdb -destination db/mock/store.go github.com/hagios2/simple-bank/db/sqlc Store
 
-.PHONY: postgres createdb dropdb migrate-up migrate-down sqlc test server mock
+.PHONY: postgres createdb dropdb migrate-up migrate-down sqlc test server mock migrate-down1 migrate-up1
