@@ -2,22 +2,22 @@ postgres:
 	docker run --name=postgres12 -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres
 
 createdb:
-	docker exec -it postgres12 createdb --username=root owner=root simple_bank
+	docker exec -it postgres12 createdb --username=root owner=root simple_bank_app
 
 dropdb:
-	docker exec -it postgres12 dropdb simple_bank
+	docker exec -it postgres12 dropdb simple_bank_app
 
 migrate-up:
-	migrate -path=db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose up
+	migrate -path=db/migration -database "postgresql://root:secret@localhost:5432/simple_bank_app?sslmode=disable" -verbose up
 
 migrate-up1:
-	migrate -path=db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose up 1
+	migrate -path=db/migration -database "postgresql://root:secret@localhost:5432/simple_bank_app?sslmode=disable" -verbose up 1
 
 migrate-down:
-	 migrate -path=db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose down
+	 migrate -path=db/migration -database "postgresql://root:secret@localhost:5432/simple_bank_app?sslmode=disable" -verbose down
 
 migrate-down1:
-	migrate -path=db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose down 1
+	migrate -path=db/migration -database "postgresql://root:secret@localhost:5432/simple_bank_app?sslmode=disable" -verbose down 1
 
 test:
 	go test -v -cover ./...
